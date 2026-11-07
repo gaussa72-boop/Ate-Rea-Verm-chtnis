@@ -1,3 +1,26 @@
 const texts={genesis:{title:"Ate Rea — Die Genesis des Lichtreiches",body:"Prolog — Das erste Licht\n\nAm Anfang war nicht die Leere, sondern die stille Möglichkeit. Ein unhörbarer Atem lag jenseits der Zeit, und aus diesem Atem erhob sich das erste Licht. Es war weder Sonne noch Stern, sondern die Erinnerung an alles, was werden konnte.\n\nAte Rea trat an die Schwelle des Ungeborenen. In ihm spiegelten sich die Fragen der Welt: Woher kommt das Leben? Was verbindet Gedanken und Materie? Und welches Licht trägt die Seele durch die Dunkelheit?\n\nDiese digitale Chronik ist ein Leseraum und Platzhalter für die vollständigen Originalkapitel. Die vollständige Manuskriptfassung wird nach Bereitstellung der Quelldatei eingepflegt."},weg:{title:"Ate Rea — Der Weg des Lichtes",body:"Erstes Kapitel — Der Pfad\n\nDer Weg des Lichtes begann dort, wo der Wanderer aufhörte, den Himmel nur über sich zu suchen. Jeder Schritt wurde zu einer Frage, jeder Atemzug zu einer Antwort, die sich erst im Weitergehen offenbarte.\n\nDas Licht befahl nicht. Es lud ein. Und wer ihm folgte, musste lernen, Schatten nicht zu verleugnen, sondern sie als Teil des Weges zu erkennen.\n\nDiese digitale Chronik ist ein Leseraum und Platzhalter für die vollständigen Originalkapitel. Die vollständige Manuskriptfassung wird nach Bereitstellung der Quelldatei eingepflegt."},quanten:{title:"Die Quantenformel",body:"Codex — Das Gewebe\n\nVielleicht ist das Universum ein Gewebe aus Beziehungen, ein Hologramm, in dem jedes Fragment die Spur des Ganzen trägt. Technologie kann Muster lesen; Bewusstsein erlebt Bedeutung. Zwischen beiden liegt die große Frage: Kann Wissen weise werden?\n\nDie Quantenformel erzählt von Simulationen, kosmischen Architekturen und der Verantwortung, die mit Erkenntnis wächst.\n\nDiese digitale Chronik ist ein Leseraum und Platzhalter für die vollständigen Originalkapitel. Die vollständige Manuskriptfassung wird nach Bereitstellung der Quelldatei."}};
-const title=document.getElementById("readerTitle"),text=document.getElementById("readerText");document.querySelectorAll("[data-book]").forEach(b=>b.addEventListener("click",()=>{const t=texts[b.dataset.book];title.textContent=t.title;text.textContent=t.body;document.getElementById("lesen").scrollIntoView({behavior:"smooth"});speechSynthesis.cancel()}));function warmGermanVoice(){const voices=speechSynthesis.getVoices();const de=voices.filter(v=>/^de(-|$)/i.test(v.lang));const preferred=de.find(v=>/female|frau|katja|petra|anna|heike|siri|google deutsch|deutsch/i.test(v.name))||de.find(v=>!/(compact|robot|novelty)/i.test(v.name))||de[0];return preferred||null}
-document.getElementById("play").onclick=()=>{speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(text.textContent);utterance.lang="de-DE";utterance.rate=0.86;utterance.pitch=0.94;utterance.volume=1;const voice=warmGermanVoice();if(voice)utterance.voice=voice;speechSynthesis.speak(utterance)};document.getElementById("stop").onclick=()=>speechSynthesis.cancel();document.getElementById("download").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([title.textContent+"\n\n"+text.textContent],{type:"text/plain;charset=utf-8"}));a.download="atrea-chronik-lesetext.txt";a.click();URL.revokeObjectURL(a.href)};document.getElementById("menu").onclick=()=>document.querySelector("nav").classList.toggle("open");
+const title=document.getElementById("readerTitle"),text=document.getElementById("readerText");document.querySelectorAll("[data-book]").forEach(b=>b.addEventListener("click",()=>{const t=texts[b.dataset.book];title.textContent=t.title;text.textContent=t.body;document.getElementById("lesen").scrollIntoView({behavior:"smooth"});speechSynthesis.cancel()}));function warmGermanVoice(){
+ const voices=speechSynthesis.getVoices();
+ const de=voices.filter(v=>/^de(-|$)/i.test(v.lang));
+ const maleNames=/(markus|stefan|daniel|thomas|lukas|luca|yannick|jonas|hans|alexander|ralf|klaus|male|mann)/i;
+ const femaleNames=/(anna|katja|petra|heike|marlene|vicki|female|frau)/i;
+ const natural=/(premium|enhanced|natural|neural|siri)/i;
+ return de.find(v=>maleNames.test(v.name)&&!femaleNames.test(v.name)&&natural.test(v.name))
+  ||de.find(v=>maleNames.test(v.name)&&!femaleNames.test(v.name))
+  ||de.find(v=>!femaleNames.test(v.name)&&natural.test(v.name)&&!/(compact|robot|novelty)/i.test(v.name))
+  ||de.find(v=>!femaleNames.test(v.name)&&!/(compact|robot|novelty)/i.test(v.name))
+  ||null;
+}
+document.getElementById("play").onclick=()=>{
+ speechSynthesis.cancel();
+ const content=text.textContent.trim();
+ if(!content)return;
+ const utterance=new SpeechSynthesisUtterance(content);
+ utterance.lang="de-DE";
+ utterance.rate=0.88;
+ utterance.pitch=0.80;
+ utterance.volume=1;
+ const voice=warmGermanVoice();
+ if(voice)utterance.voice=voice;
+ speechSynthesis.speak(utterance);
+};document.getElementById("stop").onclick=()=>speechSynthesis.cancel();document.getElementById("download").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([title.textContent+"\n\n"+text.textContent],{type:"text/plain;charset=utf-8"}));a.download="atrea-chronik-lesetext.txt";a.click();URL.revokeObjectURL(a.href)};document.getElementById("menu").onclick=()=>document.querySelector("nav").classList.toggle("open");
