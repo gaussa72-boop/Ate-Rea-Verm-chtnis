@@ -17,8 +17,8 @@ document.getElementById("play").onclick=()=>{
  if(!content)return;
  const utterance=new SpeechSynthesisUtterance(content);
  utterance.lang="de-DE";
- utterance.rate=0.88;
- utterance.pitch=0.80;
+ utterance.rate=0.86;
+ utterance.pitch=1.08;
  utterance.volume=1;
  const voice=warmGermanVoice();
  if(voice)utterance.voice=voice;
