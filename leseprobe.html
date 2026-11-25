@@ -10,4 +10,5 @@ const docs={
 const key=new URLSearchParams(location.search).get("doc"),d=docs[key]||docs.romanzyklus;
 document.title=d.title+" · Ate-Rea";document.getElementById("title").textContent=d.title;document.getElementById("desc").textContent=d.desc;document.getElementById("sample").textContent=d.sample;document.getElementById("fileNote").textContent="Die Originaldatei liegt direkt auf dieser Webseite bereit. Du kannst sie hier herunterladen; es wird kein GitHub-Konto benötigt.";
 document.getElementById("open").href=d.url;document.getElementById("open").textContent="Datei direkt von dieser Webseite herunterladen ↓";document.getElementById("open").setAttribute("download",d.filename);document.getElementById("download").href=d.url;document.getElementById("download").textContent="Originaldatei herunterladen";document.getElementById("download").setAttribute("download",d.filename);
-</script></body></html>
+</script><script src="/vorlesen.js" defer></script>
+</body></html>
